@@ -11,7 +11,7 @@ use function max;
 use function sprintf;
 use function time;
 
-final class MemcachedRateLimiter implements RateLimiter, SilentRateLimiter
+final class MemcachedRateLimiter implements RateLimiter, SilentRateLimiter, RateLimiterStatus
 {
     private const MEMCACHED_SECONDS_LIMIT = 2592000; // 30 days in seconds
 
@@ -54,6 +54,22 @@ final class MemcachedRateLimiter implements RateLimiter, SilentRateLimiter
         if ($current <= $rate->getOperations()) {
             $current = $this->updateCounterAndTime($limitKey, $timeKey, $interval);
         }
+
+        return Status::from(
+            $identifier,
+            $current,
+            $rate->getOperations(),
+            time() + max(0, $interval - $this->getElapsedTime($timeKey))
+        );
+    }
+
+    public function getRateLimitStatus(string $identifier, Rate $rate): Status
+    {
+        $interval = $rate->getInterval();
+        $timeKey = $this->timeKey($identifier, $interval);
+        $limitKey = $this->limitKey($identifier, $interval);
+
+        $current = $this->getCurrent($limitKey) ;
 
         return Status::from(
             $identifier,
