@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -14,12 +12,12 @@ use function sleep;
 
 abstract class RateLimiterTest extends TestCase
 {
-    abstract protected function getRateLimiter(): RateLimiter;
+    abstract protected function getRateLimiter();
 
     /**
      * @test
      */
-    public function it_raises_exception_when_limit_is_exceeded(): void
+    public function it_raises_exception_when_limit_is_exceeded()
     {
         $rateLimiter = $this->getRateLimiter();
         $identifier = 'test';
@@ -40,7 +38,7 @@ abstract class RateLimiterTest extends TestCase
     /**
      * @test
      */
-    public function it_resets_limit_after_rate_interval(): void
+    public function it_resets_limit_after_rate_interval()
     {
         $rateLimiter = $this->getRateLimiter();
         $identifier = 'test';
@@ -62,7 +60,7 @@ abstract class RateLimiterTest extends TestCase
     /**
      * @test
      */
-    public function it_silently_returns_correct_status_when_limit_is_exceeded(): void
+    public function it_silently_returns_correct_status_when_limit_is_exceeded()
     {
         $rateLimiter = $this->getRateLimiter();
 
@@ -84,7 +82,7 @@ abstract class RateLimiterTest extends TestCase
     /**
      * @test
      */
-    public function it_silently_tracks_rate_limit_status_information(): void
+    public function it_silently_tracks_rate_limit_status_information()
     {
         $rateLimiter = $this->getRateLimiter();
 
@@ -106,7 +104,7 @@ abstract class RateLimiterTest extends TestCase
     /**
      * @test
      */
-    public function it_silently_resets_limit_after_rate_interval(): void
+    public function it_silently_resets_limit_after_rate_interval()
     {
         $rateLimiter = $this->getRateLimiter();
 
@@ -130,7 +128,7 @@ abstract class RateLimiterTest extends TestCase
     /**
      * @test
      */
-    public function it_return_rate_status(): void
+    public function it_return_rate_status()
     {
         $rateLimiter = $this->getRateLimiter();
 

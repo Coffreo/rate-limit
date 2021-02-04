@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit\Tests\Exception;
 
 use PHPUnit\Framework\TestCase;
@@ -13,7 +11,7 @@ use RateLimit\Rate;
  */
 final class LimitExceededTest extends TestCase
 {
-    public function testForReturnsException(): void
+    public function testForReturnsException()
     {
         $identifier = 'foo';
         $rate = Rate::custom(
@@ -21,7 +19,7 @@ final class LimitExceededTest extends TestCase
             3600
         );
 
-        $exception = LimitExceeded::for(
+        $exception = LimitExceeded::forData(
             $identifier,
             $rate
         );

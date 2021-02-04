@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit\Tests;
 
 use RateLimit\RateLimiter;
@@ -11,7 +9,7 @@ use function extension_loaded;
 
 class RedisRateLimiterTest extends RateLimiterTest
 {
-    protected function getRateLimiter(): RateLimiter
+    protected function getRateLimiter()
     {
         if (!extension_loaded('redis')) {
             $this->markTestSkipped('Redis extension not loaded.');
@@ -19,7 +17,7 @@ class RedisRateLimiterTest extends RateLimiterTest
 
         $redis = new Redis();
 
-        $success = @ $redis->connect('127.0.0.1', 6379);
+        $success = @ $redis->connect('redis.coffreo.ext', 6379);
 
         if (!$success) {
             $this->markTestSkipped('Cannot connect to Redis.');

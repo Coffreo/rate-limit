@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit;
 
 interface SilentRateLimiter
 {
-    public function limitSilently(string $identifier, Rate $rate): Status;
+    public function limitSilently($identifier, Rate $rate);
 }

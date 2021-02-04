@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit;
 
 use RateLimit\Exception\LimitExceeded;
@@ -13,18 +11,18 @@ final class InMemoryRateLimiter implements RateLimiter, SilentRateLimiter
     /** @var array */
     private $store = [];
 
-    public function limit(string $identifier, Rate $rate): void
+    public function limit($identifier, Rate $rate)
     {
         $key = $this->key($identifier, $rate->getInterval());
 
         $current = $this->hit($key, $rate);
 
         if ($current > $rate->getOperations()) {
-            throw LimitExceeded::for($identifier, $rate);
+            throw LimitExceeded::forData($identifier, $rate);
         }
     }
 
-    public function limitSilently(string $identifier, Rate $rate): Status
+    public function limitSilently($identifier, Rate $rate)
     {
         $key = $this->key($identifier, $rate->getInterval());
 
@@ -38,12 +36,12 @@ final class InMemoryRateLimiter implements RateLimiter, SilentRateLimiter
         );
     }
 
-    private function key(string $identifier, int $interval): string
+    private function key($identifier, $interval)
     {
         return "$identifier:$interval:" . floor(time() / $interval);
     }
 
-    private function hit(string $key, Rate $rate): int
+    private function hit($key, Rate $rate)
     {
         if (!isset($this->store[$key])) {
             $this->store[$key] = [

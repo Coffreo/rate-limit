@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -12,7 +10,7 @@ class RateTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_per_second_ratio(): void
+    public function it_supports_per_second_ratio()
     {
         $rate = Rate::perSecond(10);
 
@@ -23,7 +21,7 @@ class RateTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_per_minute_ratio(): void
+    public function it_supports_per_minute_ratio()
     {
         $rate = Rate::perMinute(20);
 
@@ -34,7 +32,7 @@ class RateTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_per_hour_ratio(): void
+    public function it_supports_per_hour_ratio()
     {
         $rate = Rate::perHour(100);
 
@@ -45,7 +43,7 @@ class RateTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_per_day_ratio(): void
+    public function it_supports_per_day_ratio()
     {
         $rate = Rate::perDay(1000);
 
@@ -56,7 +54,7 @@ class RateTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_custom_ratio(): void
+    public function it_supports_custom_ratio()
     {
         $rate = Rate::custom(50, 180);
 

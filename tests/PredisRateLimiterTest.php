@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit\Tests;
 
 use Predis\Client;
@@ -11,13 +9,13 @@ use function class_exists;
 
 class PredisRateLimiterTest extends RateLimiterTest
 {
-    protected function getRateLimiter(): RateLimiter
+    protected function getRateLimiter()
     {
         if (!class_exists('Predis\Client')) {
             $this->markTestSkipped('Predis library is not available');
         }
 
-        $predis = new Client('tcp://127.0.0.1:6379');
+        $predis = new Client('tcp://redis.coffreo.ext:6379');
 
         $predis->connect();
         if (!$predis->isConnected()) {

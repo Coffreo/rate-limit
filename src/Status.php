@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RateLimit;
 
 use DateTimeImmutable;
@@ -24,7 +22,7 @@ class Status
     /** @var DateTimeImmutable */
     protected $resetAt;
 
-    final protected function __construct(string $identifier, bool $success, int $limit, int $remainingAttempts, DateTimeImmutable $resetAt)
+    final protected function __construct($identifier, $success, $limit, $remainingAttempts, DateTimeImmutable $resetAt)
     {
         $this->identifier = $identifier;
         $this->success = $success;
@@ -33,7 +31,7 @@ class Status
         $this->resetAt = $resetAt;
     }
 
-    public static function from(string $identifier, int $current, int $limit, int $resetTime)
+    public static function from($identifier, $current, $limit, $resetTime)
     {
         return new static(
             $identifier,
@@ -44,27 +42,27 @@ class Status
         );
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier()
     {
         return $this->identifier;
     }
 
-    public function limitExceeded(): bool
+    public function limitExceeded()
     {
         return !$this->success;
     }
 
-    public function getLimit(): int
+    public function getLimit()
     {
         return $this->limit;
     }
 
-    public function getRemainingAttempts(): int
+    public function getRemainingAttempts()
     {
         return $this->remainingAttempts;
     }
 
-    public function getResetAt(): DateTimeImmutable
+    public function getResetAt()
     {
         return $this->resetAt;
     }
