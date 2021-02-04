@@ -10,7 +10,7 @@ use function ceil;
 use function max;
 use function time;
 
-final class RedisRateLimiter implements RateLimiter, SilentRateLimiter
+final class RedisRateLimiter implements RateLimiter, SilentRateLimiter, RateLimiterStatus
 {
     /** @var Redis */
     private $redis;
@@ -46,6 +46,20 @@ final class RedisRateLimiter implements RateLimiter, SilentRateLimiter
         if ($current <= $rate->getOperations()) {
             $current = $this->updateCounter($key, $rate->getInterval());
         }
+
+        return Status::from(
+            $identifier,
+            $current,
+            $rate->getOperations(),
+            time() + $this->ttl($key)
+        );
+    }
+
+    public function getRateLimitStatus(string $identifier, Rate $rate): Status
+    {
+        $key = $this->key($identifier, $rate->getInterval());
+
+        $current = $this->getCurrent($key) ;
 
         return Status::from(
             $identifier,
