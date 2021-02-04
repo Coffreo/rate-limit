@@ -15,7 +15,7 @@ use function max;
 use function sprintf;
 use function time;
 
-final class ApcuRateLimiter implements RateLimiter, SilentRateLimiter
+final class ApcuRateLimiter implements RateLimiter, SilentRateLimiter, RateLimiterStatus
 {
     /** @var string */
     private $keyPrefix;
@@ -55,6 +55,22 @@ final class ApcuRateLimiter implements RateLimiter, SilentRateLimiter
         if ($current <= $rate->getOperations()) {
             $current = $this->updateCounterAndTime($limitKey, $timeKey, $interval);
         }
+
+        return Status::from(
+            $identifier,
+            $current,
+            $rate->getOperations(),
+            time() + max(0, $interval - $this->getElapsedTime($timeKey))
+        );
+    }
+
+    public function getRateLimitStatus(string $identifier, Rate $rate): Status
+    {
+        $interval = $rate->getInterval();
+        $timeKey = $this->timeKey($identifier, $interval);
+        $limitKey = $this->limitKey($identifier, $interval);
+
+        $current = $this->getCurrent($limitKey) ;
 
         return Status::from(
             $identifier,
