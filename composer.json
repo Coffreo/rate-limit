@@ -18,8 +18,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^7.2 || ^8.0",
-        "beberlei/assert": "^3.2"
+        "php": "^7.2 || ^8.0"
     },
     "require-dev": {
         "ext-apcu": ">=5.1.12",
